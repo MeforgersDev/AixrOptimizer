@@ -85,6 +85,16 @@ class AixrOptimizerApp(QWidget):
 
         self.stop_button = QPushButton('Stop Training', self)
         left_layout.addWidget(self.stop_button)
+        
+        self.save_path_label = QLabel('Save Path:', self)
+        left_layout.addWidget(self.save_path_label)
+
+        self.save_path_input = QLineEdit(self)
+        left_layout.addWidget(self.save_path_input)
+
+        self.save_path_button = QPushButton('Select Save Path', self)
+        self.save_path_button.clicked.connect(self.select_save_path)
+        left_layout.addWidget(self.save_path_button)
 
         self.repo_label = QLabel('Hugging Face Repo:', self)
         left_layout.addWidget(self.repo_label)
@@ -206,7 +216,18 @@ class AixrOptimizerApp(QWidget):
             optimizers=(optimizer, None)
         )
         trainer.train()
+        #Save side
+        model.save_pretrained(save_path)
+        tokenizer.save_pretrained(save_path)
+        self.log_message(f"Model and tokenizer saved to {save_path}")
 
+    def select_save_path(self):
+        options = QFileDialog.Options()
+        directory = QFileDialog.getExistingDirectory(self, "Select Save Directory", options=options)
+        if directory:
+            self.save_path_input.setText(directory)
+
+  
     def upload_model(self):
         model_name = self.model_combo.currentText()
         repo_name = self.repo_input.text()
