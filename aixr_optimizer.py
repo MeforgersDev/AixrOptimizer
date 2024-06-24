@@ -59,7 +59,6 @@ class AixrOptimizer(Optimizer):
                 bias_correction2 = 1 - beta2 ** state['step']
                 step_size = group['lr'] * math.sqrt(bias_correction2) / bias_correction1
 
-                # Apply weight decay (AdamW style)
                 if group['weight_decay'] != 0:
                     p.data.add_(p.data, alpha=-group['weight_decay'])
 
