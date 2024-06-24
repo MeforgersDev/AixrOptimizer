@@ -85,7 +85,7 @@ class AixrOptimizerApp(QWidget):
 
         self.stop_button = QPushButton('Stop Training', self)
         left_layout.addWidget(self.stop_button)
-        
+
         self.save_path_label = QLabel('Save Path:', self)
         left_layout.addWidget(self.save_path_label)
 
@@ -200,7 +200,7 @@ class AixrOptimizerApp(QWidget):
 
     def train_model(self, model, tokenizer, train_dataset, device, optimizer, num_epochs, batch_size):
         training_args = TrainingArguments(
-            output_dir='./results',
+            output_dir=save_path,
             num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=64,
