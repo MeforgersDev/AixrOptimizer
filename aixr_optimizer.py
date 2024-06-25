@@ -59,8 +59,9 @@ class AixrOptimizer(Optimizer):
                 bias_correction2 = 1 - beta2 ** state['step']
                 step_size = group['lr'] * math.sqrt(bias_correction2) / bias_correction1
 
+                # Apply weight decay
                 if group['weight_decay'] != 0:
-                    p.data.add_(p.data, alpha=-group['weight_decay'])
+                    p.data.add_(p.data, alpha=-group['weight_decay'] * group['lr'])
 
                 # Update parameters
                 p.data.addcdiv_(exp_avg, denom, value=-step_size)
